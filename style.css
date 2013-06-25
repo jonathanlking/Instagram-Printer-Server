@@ -61,16 +61,10 @@
 	text-decoration:none;
 }
 
-#container {
-	
-	padding-left: 20px;
-	padding-top: 100px;
-}
 
 .print {
 	width: 160px;
 	height: 240px;
-	/* zoom: 200%; */
 	float: left;
 	box-shadow: rgb(221, 214, 203) 2px 2px 10px 0px;
 	margin: 10px;	
@@ -80,7 +74,6 @@
 	
 	width: 320px;
 	height: 480px;
-	/* zoom: 200%; */
 	float: left;
 	box-shadow: rgb(221, 214, 203) 4px 4px 20px 5px;
 	margin: 20px;	
