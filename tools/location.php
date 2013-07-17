@@ -32,6 +32,9 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 //execute post
 $data = curl_exec($ch);
 
+$url = $url.$$fields_string;
+echo($url);
+
 var_dump($data);
 
 
