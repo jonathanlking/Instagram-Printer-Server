@@ -19,6 +19,9 @@ curl_close($curl);
 
 $data = json_decode($responce);
 
+echo("$data");
+
+/*
 if ($data["meta"]["code"] !== "200") echo "Something went wrong!";
 else {
 	
@@ -29,6 +32,7 @@ else {
     
    }
 }
+*/
 
 
 ?>
