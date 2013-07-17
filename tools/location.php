@@ -19,7 +19,7 @@ curl_close($curl);
 
 $data = json_decode($responce);
 
-echo("$data");
+var_dump($data);
 
 /*
 if ($data["meta"]["code"] !== "200") echo "Something went wrong!";
