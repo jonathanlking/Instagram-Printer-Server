@@ -15,9 +15,9 @@ $fields = array(
 'access_token' => $token
 );
 
-//url-ify the data for the POST
-foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-rtrim($fields_string, '&');
+$fieldsString;
+foreach($fields as $key=>$value) { $fieldsString .= $key.'='.$value.'&'; }
+rtrim($fieldsString, '&');
 
 //open connection
 $ch = curl_init();
@@ -25,7 +25,7 @@ $ch = curl_init();
 //set the url, number of POST vars, POST data
 curl_setopt($ch,CURLOPT_URL, $url);
 curl_setopt($ch,CURLOPT_POST, count($fields));
-curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
+curl_setopt($ch,CURLOPT_POSTFIELDS, $fieldsString);
 // This returns the data rather than printing it! Very important
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
