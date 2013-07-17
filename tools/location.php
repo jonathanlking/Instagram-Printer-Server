@@ -6,7 +6,7 @@ $url = "https://api.instagram.com/v1/locations/search";
 
 $latitude = "51.60071198679392";
 $longitude = "-0.1884612590074";
-$token = "7bd107beff1b41ef8a0bd77c24aaec1f";
+$token = "1590313.22c41e6.ab449188c6c64d068c84904b7709255f";
 
 $curl = curl_init();
 // Set some options - we are passing in a useragent too here
