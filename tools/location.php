@@ -1,5 +1,6 @@
 <?php
 
+include($_SERVER['DOCUMENT_ROOT']."/kint/Kint.class.php");
 
 $url = "https://api.instagram.com/v1/locations/search";
 
@@ -19,7 +20,7 @@ curl_close($curl);
 
 $data = json_decode($responce);
 
-var_dump($data);
+d($data);
 
 /*
 if ($data["meta"]["code"] !== "200") echo "Something went wrong!";
