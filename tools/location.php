@@ -19,6 +19,9 @@ $responce = curl_exec($curl);
 curl_close($curl);
 
 $data = json_decode($responce);
+$code = $data->code;
+
+print($code); 
 
 d($data);
 
