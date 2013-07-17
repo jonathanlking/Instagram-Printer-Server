@@ -2,6 +2,26 @@
 
 include($_SERVER['DOCUMENT_ROOT']."/kint/Kint.class.php");
 
+$address = "N32HR";
+
+$curl = curl_init();
+// Set some options - we are passing in a useragent too here
+curl_setopt_array($curl, array(
+    CURLOPT_RETURNTRANSFER => 1,
+    CURLOPT_URL => "http://maps.google.com/maps/api/geocode/json?address=$address&sensor=false",
+));
+
+$responce = curl_exec($curl);
+curl_close($curl);
+
+$data = json_decode($responce, true);
+d($data);
+
+
+
+
+
+/*
 $url = "https://api.instagram.com/v1/locations/search";
 
 $latitude = "51.60071198679392";
@@ -36,5 +56,6 @@ else {
    }
 }
 
+*/
 
 ?>
