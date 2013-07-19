@@ -1,7 +1,9 @@
 <?php
 
+include($_SERVER['DOCUMENT_ROOT']."/keychain.php");
+
 $foursquareID = $_GET["id"];
-$clientID = "cd5ca076bfd6494ba94756a919325d34";
+$clientID = instagram()["id"];
 
 $curl = curl_init();
 // Set some options
