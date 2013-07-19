@@ -109,7 +109,7 @@ function printInstagramVenue(data) {
 	clearList();
 	console.log(data);
 	var item = $('<p class="result"></p>');
-	item.prepend('Name: ' + data.name + "</br>" + 'ID: ' + data.id + "</br>" + 'Longitude: ' + data.longitude + "</br>" + 'Latitude: ' + data.latitude);
+	item.prepend('Name: ' + data.name + "</br>" + 'Instagram Location ID: ' + data.id + "</br>" + 'Longitude: ' + data.longitude + "</br>" + 'Latitude: ' + data.latitude);
 	item.attr({
 		'data-name': data.name,
 		'data-id': data.id,
