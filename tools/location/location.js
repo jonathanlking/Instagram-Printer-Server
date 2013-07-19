@@ -56,47 +56,53 @@ function printGeocodedAddress(data) {
 	clearList();
 	if (data.length === 0) {
 		var empty = $('<p class="result empty">No results</p>');
-		empty.appendTo('#results');
-	}
-	for (var i = 0; i < data.length; i++) {
-		var address = data[i];
-		var item = $('<p class="result location click"></p>');
-		item.prepend(address.name);
-		item.attr({
-			'data-latitude': address.latitude,
-			'data-longitude': address.longitude,
-			'data-location': address.name
+		empty.appendTo('#content');
+	} else {
+		var results = $('<ul id="results"></ul>');
+		results.appendTo('#content');
+		for (var i = 0; i < data.length; i++) {
+			var address = data[i];
+			var item = $('<li class="result location click"></li>');
+			item.prepend(address.name);
+			item.attr({
+				'data-latitude': address.latitude,
+				'data-longitude': address.longitude,
+				'data-location': address.name
+			});
+			item.appendTo('#results');
+		}
+		$(".location").click(function() {
+			var latitude = $(this).attr("data-latitude");
+			var longitude = $(this).attr("data-longitude");
+			var name = $(this).attr("data-location");
+			venuesForLocation(longitude, latitude, name);
 		});
-		item.appendTo('#results');
 	}
-	$(".location").click(function() {
-		var latitude = $(this).attr("data-latitude");
-		var longitude = $(this).attr("data-longitude");
-		var name = $(this).attr("data-location");
-		venuesForLocation(longitude, latitude, name);
-	});
 }
 
 function printVenues(data) {
 	clearList();
 	if (data.length === 0) {
 		var empty = $('<p class="result empty">No results</p>');
-		empty.appendTo('#results');
-	}
-	for (var i = 0; i < data.length; i++) {
-		var venue = data[i];
-		var item = $('<p class="result venue click"></p>');
-		item.prepend(venue.name);
-		item.attr({
-			'data-name': venue.name,
-			'data-id': venue.id
+		empty.appendTo('#content');
+	} else {
+		var results = $('<ul id="results"></ul>');
+		results.appendTo('#content');
+		for (var i = 0; i < data.length; i++) {
+			var venue = data[i];
+			var item = $('<li class="result venue click"></li>');
+			item.prepend(venue.name);
+			item.attr({
+				'data-name': venue.name,
+				'data-id': venue.id
+			});
+			item.appendTo('#results');
+		}
+		$(".venue").click(function() {
+			var id = $(this).attr("data-id");
+			instagramVenueFromFoursquareVenueId(id);
 		});
-		item.appendTo('#results');
 	}
-	$(".venue").click(function() {
-		var id = $(this).attr("data-id");
-		instagramVenueFromFoursquareVenueId(id);
-	});
 }
 
 function printInstagramVenue(data) {
@@ -110,11 +116,11 @@ function printInstagramVenue(data) {
 		'data-latitude': data.latitude,
 		'data-longitude': data.longitude
 	});
-	item.appendTo('#results');
+	item.appendTo('#content');
 }
 
 function clearList() {
-	$('#results').empty();
+	$('#content').empty();
 }
 
 function updateSearchbar(text) {
@@ -123,6 +129,11 @@ function updateSearchbar(text) {
 
 function appendSearchbarText(text) {
 	var existing = $('#form input').val();
+	var formattedLength = 25;
+	if (existing.length >= formattedLength) {
+		var truncatedText = existing.substring(0, formattedLength - 3);
+		existing = truncatedText + '...';
+	}
 	updateSearchbar(existing + ' - ' + text);
 }
 
@@ -136,13 +147,15 @@ function showOverlay() {
 		},
 		css: {
 			border: 'none',
-			padding: '15px',
+			'padding': 'none',
 			'font-size': '12px',
 			'font-family': 'Helvetica, sans-serif',
-			backgroundColor: '#000',
-			'-webkit-border-radius': '10px',
-			'-moz-border-radius': '10px',
-			opacity: 0.5,
+			position: 'fixed',
+			top: 0,
+			left: 0,
+			width: '100%',
+			backgroundColor: '#009ce8',
+			opacity: 0.8,
 			color: 'white',
 			cursor: 'default'
 		}

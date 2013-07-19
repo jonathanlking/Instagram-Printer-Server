@@ -1,13 +1,9 @@
-#results {
-	margin-left:10px
-}
-
 .click {
 	cursor:pointer
 }
 
 .empty {
-	color:#4d4d4d
+	color:#4d4d4d !important;
 }
 
 .input {
@@ -38,5 +34,12 @@
 hr {
 	border:0;
 	border-bottom:1px solid #fff;
-	border-top:1px solid #eee
+	border-top:1px solid #eee;
+	padding-bottom: 20px;
+}
+
+ul {
+	
+	margin:0;
+	padding: 0;
 }
