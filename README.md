@@ -3,7 +3,8 @@ Server-Instagram-Printer
 
 Create your own Instagram printer with a Raspberry Pi, Polaroid Pogo and web server.
 
-Credits/Attribution/Copyright Notices
+###Credits/Attribution/Copyright Notices
+----------------------------------------
 
 **jQuery blockUI plugin**
 
