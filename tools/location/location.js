@@ -172,11 +172,8 @@ $("#form").submit(function() {
 	geocodeAddress(data[0].value);
 	event.preventDefault();
 });
-<<<<<<< HEAD
+
 $(document).ready(function() {
 	
 	$('#form input').focus();
 });
-=======
-$(document).ready(function() {});
->>>>>>> 6ca81170b95792b98f2709523d0ff4a9b26972d2
