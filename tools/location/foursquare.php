@@ -1,8 +1,10 @@
 <?php
 
+include($_SERVER['DOCUMENT_ROOT']."/keychain.php");
+
 $latitude = $_GET["lat"];
 $longitude = $_GET["lng"];
-$token = "KFHT0LQTJQU1W41QSMC3QBUZGDGRYWMSFE5PIJSK14K35R4W&v=20130718";
+$token = foursquare();
 
 $curl = curl_init();
 // Set some options - we are passing in a useragent too here
