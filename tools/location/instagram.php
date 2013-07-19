@@ -3,7 +3,8 @@
 include($_SERVER['DOCUMENT_ROOT']."/keychain.php");
 
 $foursquareID = $_GET["id"];
-$clientID = instagram()["id"];
+$instagramCredentials = instagram();
+$clientID = instagramCredentials["id"];
 
 $curl = curl_init();
 // Set some options
