@@ -1,6 +1,0 @@
-https://api.instagram.com/v1/locations/search?lat=48.856614&lng=2.3522219&access_token=1590313.22c41e6.ab449188c6c64d068c84904b7709255f
-https://api.instagram.com/v1/locations/search?lat=51.6007035&lng=-0.188449&access_token=1590313.22c41e6.ab449188c6c64d068c84904b7709255f
-https://api.instagram.com/v1/locations/search?lat=51.6007035&lng=-0.188449&access_token=1590313.22c41e6.ab449188c6c64d068c84904b7709255f
-https://api.instagram.com/v1/locations/search?lat=51.52414470000001&lng=-0.0772599&access_token=1590313.22c41e6.ab449188c6c64d068c84904b7709255f
-https://api.instagram.com/v1/locations/search?lat=51.5461891&lng=-0.1611068&access_token=1590313.22c41e6.ab449188c6c64d068c84904b7709255f
-https://api.instagram.com/v1/locations/search?lat=40.7479117&lng=-73.99629929999999&access_token=1590313.22c41e6.ab449188c6c64d068c84904b7709255f
