@@ -1,49 +1,111 @@
 <?php
 
-header('Content-Type: image/jpeg');
+class PrintGenerator
+{
 
-// Asset paths
-$clockImagePath = 'images/clock.png';
-$locationPinImagePath = 'images/locationPin.png';
-$speechBubbleImagePath = 'images/speechBubble.png';
-$heartShapeImagePath = 'images/heartShape.png';
+	private $clockImagePath;
+	private $locationPinImagePath;
+	private $speechBubbleImagePath;
+	private $heartShapeImagePath;
 
-$username = $_GET["username"];
-$profilePictureURL = $_GET["profilePictureURL"];
-$photoURL = $_GET["photoURL"];
-$creationTime = $_GET["creationTime"];
-$location = $_GET["location"];
-$caption = $_GET["caption"];
-$link = $_GET["link"];
-$likes = $_GET["likes"];
-$logo = $_GET["logo"];
+	private $Font;
+	private $BoldFont;
+
+	private $username = "Username";
+	private $location = "Location";
+	private $caption = "Caption";
+	private $link = "Link";
+	private $profilePictureURL;
+	private $photoURL;
+	private $creationTime;
+	private $likes;
+	private $logo;
+
+	private $canvas;
+
+	private $white;
+	private $blue;
+	private $paleBlue;
+	private $grey;
+	private $darkGrey;
 
 
-function decode_characters($info) {
 
-	$info = iconv("UTF-8", "ISO-8859-1", $info);
-	return $info;
+	function PrintGenerator($username, $location, $caption, $link, $profilePictureURL, $photoURL, $creationTime, $likes, $logo)
+	{
+		if (!empty($username)) $this->$username = $username;
+		if (!empty($location)) $this->$location = $location;
+		if (!empty($caption)) $this->$caption = $caption;
+		if (!empty($link)) $this->$link = $link;
+		$this->$profilePictureURL = $profilePictureURL;
+		$this->$photoURL = $photoURL;
+		$this->$creationTime = $creationTime;
+		$this->$likes = $likes;
+		$this->$logo = $logo;
+	}
+
+
+	public function __construct()
+	{
+		$clockImagePath = $_SERVER['DOCUMENT_ROOT'].'/engine/images/clock.png';
+		$locationPinImagePath = $_SERVER['DOCUMENT_ROOT'].'/engine/images/locationPin.png';
+		$speechBubbleImagePath = $_SERVER['DOCUMENT_ROOT'].'/engine/images/speechBubble.png';
+		$heartShapeImagePath = $_SERVER['DOCUMENT_ROOT']."/engine/images/heartShape.png";
+
+		$Font = $_SERVER['DOCUMENT_ROOT']."fonts/Helvetica.ttf";
+		$BoldFont = $_SERVER['DOCUMENT_ROOT']."fonts/HelveticaBold.ttf";
+
+		$canvas = imagecreatetruecolor(640, 960);
+
+		$white = imagecolorallocate($canvas, 255, 255, 255);
+		$blue = imagecolorallocate($canvas, 46, 94, 134);
+		$paleBlue = imagecolorallocate($canvas, 83, 152, 209);
+		$grey = imagecolorallocate($canvas, 150, 150, 150);
+		$darkGrey = imagecolorallocate($canvas, 70, 70, 70);
+	}
+
+
+	private function decodeCharacters($string)
+	{
+		return iconv("UTF-8", "ISO-8859-1", $string);
+	}
+
+
+	private function imageFromUrl($url)
+	{
+		$curl = curl_init();
+		// Set some options - we are passing in a useragent too here
+		curl_setopt_array($curl, array(
+				CURLOPT_RETURNTRANSFER => 1,
+				CURLOPT_URL => $url,
+				CURLOPT_CONNECTTIMEOUT => 5
+			));
+
+		$image = curl_exec($curl);
+		curl_close($curl);
+
+		return $image;
+	}
+
+
+	private function formattedCreationTime()
+	{
+
+		if (empty($this->$creationTime)) $creationTimeFormatted = "ERR:OR PM";
+		else  $creationTimeFormatted = gmdate('g:i A', $this->$creationTime);
+
+		return $creationTimeFormatted;
+	}
+	
+	private function setupCanvas() {
+		
+		// Draw the white background of the image
+		imagefilledrectangle($canvas, 0, 0, 640, 960, $white);
+	}
+
+
 }
 
-function imageFromUrl($url) {
-
-	$curl = curl_init();
-	// Set some options - we are passing in a useragent too here
-	curl_setopt_array($curl, array(
-			CURLOPT_RETURNTRANSFER => 1,
-			CURLOPT_URL => $url,
-			CURLOPT_CONNECTTIMEOUT => 5
-		));
-
-	$image = curl_exec($curl);
-	curl_close($curl);
-
-	return $image;
-}
-
-/* Format the creation time */
-if (empty($creationTime)) $creationTimeFormatted = "ERR:OR PM";
-else $creationTimeFormatted = gmdate('g:i A', $creationTime);
 
 /* Check that the strings aren't too long and clean up input*/
 $username = (strlen($username) > 22) ? substr($username, 0, 20).'...' : $username;
@@ -65,22 +127,7 @@ $caption = decode_characters($caption);
 
 /* Setup the canvas and basic colours */
 
-// Create the image
-$canvas = imagecreatetruecolor(640, 960);
 
-// Create some colors
-$white = imagecolorallocate($canvas, 255, 255, 255);
-$blue = imagecolorallocate($canvas, 46, 94, 134);
-$paleBlue = imagecolorallocate($canvas, 83, 152, 209);
-$grey = imagecolorallocate($canvas, 150, 150, 150);
-$darkGrey = imagecolorallocate($canvas, 70, 70, 70);
-
-// Load the font
-$Font = 'fonts/Helvetica.ttf';
-$BoldFont = 'fonts/HelveticaBold.ttf';
-
-// Draw the white background of the image
-imagefilledrectangle($canvas, 0, 0, 640, 960, $white);
 
 // Draw the profile picture
 
