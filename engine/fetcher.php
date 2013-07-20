@@ -47,6 +47,8 @@ foreach ($media as $value) {
 	echo "<strong>Link:</strong> $link";
 	echo "<br/>";
 	echo '<p><img src='.$photoURL.' height="'.$size.'" width="'.$size.'" alt="SOME TEXT HERE"></p>';
+	echo "<br/>";
+	echo "<hr>";
 }
 
 ?>
