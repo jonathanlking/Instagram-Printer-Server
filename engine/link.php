@@ -34,7 +34,7 @@ function instagramPrintFromMediaData($media) {
 		'logo' => ""
 	);
 
-	$request = urldecode($url.http_build_query($data));
+	$request = $url.http_build_query($data);
 
 	$curl = curl_init();
 	curl_setopt_array($curl, array(
