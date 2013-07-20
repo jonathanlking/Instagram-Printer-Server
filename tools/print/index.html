@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Instagram Printer &middot Location Calculator</title>
+  <title>Instagram Printer &middot Print Generator</title>
   <meta name="description" content="Instagram Printer">
   <meta name="author" content="Jonathan King">
   <link rel="stylesheet" href="style.css">
@@ -13,19 +13,19 @@
 <body>
 
 <form id="form">
-<input class="input" name="location" type="text" placeholder="Location">
+<input class="input" name="link" type="text" placeholder="Instagram link">
+<input type="hidden" name="format" value="base64">
 </form>
 
 <hr>
 
 <div id="content">
-	
-	<p class="help">Enter a location to start.</p>
+	<p class="help">Enter an Instagram link. Public photos only.</p>
 </div>
 
 
 <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script src="location.js"></script>
+<script src="print.js"></script>
 <script src="http://malsup.github.io/jquery.blockUI.js"></script>
 
 </body>
