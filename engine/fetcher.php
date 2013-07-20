@@ -14,7 +14,7 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $data = curl_exec($ch);
 
-$media = json_decode($data, true)->data;
+$media = json_decode($data, true)=>data;
 
 foreach ($media as $value) {
 
