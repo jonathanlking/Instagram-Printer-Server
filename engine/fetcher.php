@@ -14,9 +14,9 @@ curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $data = curl_exec($ch);
 
-$media = (json_decode($data, true))->data;
+$response = json_decode($data, true);
 
-foreach ($media as $value) {
+foreach ($responce["data"] as $value) {
 
 	$username = $value['user']['username'];
 	$profilePictureURL = $value['user']['profile_picture'];
