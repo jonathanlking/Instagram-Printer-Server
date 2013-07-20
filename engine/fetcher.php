@@ -8,22 +8,13 @@ $clientID = $keychain->getInstagramClientId();
 
 $tag = "sunset";
 
-
-//set POST variables
 $url = "https://api.instagram.com/v1/tags/$tag/media/recent?client_id=$clientID";
-
-//open connection
 $ch = curl_init();
-
-//set the url, number of POST vars, POST data
 curl_setopt($ch, CURLOPT_URL, $url);
-// This returns the data rather than printing it! Very important
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-//execute post
 $data = curl_exec($ch);
-$data = json_decode($data, true);
-$media = $data["data"];
+
+$media = json_decode($data, true)["data"];
 
 foreach ($media as $value) {
 
