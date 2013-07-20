@@ -86,7 +86,14 @@ file_put_contents($savePath, $picture);
 */
 
 //execute post
+
 $picture = curl_exec($ch);
-echo($picture);
+
+if($_REQUEST["format"] === "base64") {
+	$encodedPicture = base64_encode($picture);
+	echo($encodedPicture);
+}
+
+else echo($picture);
 
 ?>
