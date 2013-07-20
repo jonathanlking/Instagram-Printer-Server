@@ -1,101 +1,71 @@
 <?php
 
-require_once ("instagram.class.php");
+require_once "instagram.class.php";
 include $_SERVER['DOCUMENT_ROOT']."/keychain.php";
+
+function instagramMediaIdFromLink($link) {
+	$curl = curl_init();
+	curl_setopt_array($curl, array(
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_URL => "http://api.instagram.com/oembed?url=$link",
+		));
+
+
+	$responce = curl_exec($curl);
+	curl_close($curl);
+
+	$data = json_decode($responce);
+	return $data->media_id;
+}
+
+function instagramPrintFromMediaData($media) {
+
+	/* $url =  $_SERVER['DOCUMENT_ROOT']."/engine/generate?"; */
+	$url = 'http://print.jonathanlking.com/engine/generate?';
+	$data =  array(
+		'username' => $media->data->user->username,
+		'profilePictureURL' => $media->data->user->profile_picture,
+		'photoURL' => $media->data->images->standard_resolution->url,
+		'creationTime' => $media->data->created_time,
+		'location' => $media->data->location->name,
+		'caption' => $media->data->caption->text,
+		'likes' => $media->data->likes->count,
+		'link' => $media->data->link,
+		'logo' => ""
+	);
+
+	$request = urldecode($url.http_build_query($data));
+
+	$curl = curl_init();
+	curl_setopt_array($curl, array(
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_URL => $request,
+		));
+
+
+	$responce = curl_exec($curl);
+	curl_close($curl);
+
+	return $responce;
+}
 
 $keychain = new keychain;
 $clientID = $keychain->getInstagramClientId();
 
-function get_data($url) {
-  	$ch = curl_init();
-  	$timeout = 5;
-  	curl_setopt($ch, CURLOPT_URL, $url);
-  	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-  	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-  	$data = curl_exec($ch);
-  	curl_close($ch);
-  	return $data;
-}
-
-function logData($data) {
-	
-	$ALL = date("F j, Y, g:i:s:u a")." ".$data."\r\n";
-	file_put_contents('link.log', $ALL, FILE_APPEND);
-}
-
-// Get the media_id from the link
 $link = $_REQUEST["link"];
-$url = "http://api.instagram.com/oembed?url=$link";
-$data = get_data($url);
-$data = json_decode($data);
-$mediaId = $data->media_id;
+if (empty($link)) die();
 
-logData("$link");
-
-if(empty($mediaId)) {
-	
-	// The Link provided is probably not real, or instagram are having some real problems...
-	// Therefore return here...
-	return;		
-}
+// Get the Instagram media id from the link
+$mediaId = instagramMediaIdFromLink($link);
+if (empty($mediaId)) die();
 
 // Get the image details from the media_id
+$instagram = new Instagram($clientID);
+$mediaData = $instagram->getMedia($mediaId);
 
-$instagram = new Instagram($client_id);
-$media = $instagram->getMedia($mediaId);
+$print = instagramPrintFromMediaData($mediaData);
 
-$username = $media->data->user->username;
-$profilePictureURL = $media->data->user->profile_picture;
-$photoURL = $media->data->images->standard_resolution->url;
-$creationTime = $media->data->created_time;
-$location = $media->data->location->name;
-$caption = $media->data->caption->text;
-$likes = $media->data->likes->count;
-$link =  $media->data->link;
-
-//set POST variables
-$url = 'http://print.jonathanlking.com/engine/generate.php';
-$fields =  array(
-'username' => $username,
-'profilePictureURL' => $profilePictureURL,
-'photoURL' => $photoURL,
-'creationTime' => $creationTime,
-'location' => $location,
-'caption' => $caption,
-'likes' => $likes,
-'link' => $link,
-'logo' => $logo
-);
-	
-//url-ify the data for the POST
-foreach($fields as $key=>$value) { $fields_string .= $key.'='.$value.'&'; }
-rtrim($fields_string, '&');
-
-//open connection
-$ch = curl_init();
-
-//set the url, number of POST vars, POST data
-curl_setopt($ch,CURLOPT_URL, $url);
-curl_setopt($ch,CURLOPT_POST, count($fields));
-curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
-// This returns the data rather than printing it! Very important
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-//save to the print directory if necessary
-/*
-$savePath = 'prints/'.$objectId.'/latest.jpg';
-file_put_contents($savePath, $picture);
-*/
-
-//execute post
-
-$picture = curl_exec($ch);
-
-if($_REQUEST["format"] === "base64") {
-	$encodedPicture = base64_encode($picture);
-	echo($encodedPicture);
-}
-
-else echo($picture);
+if ($_REQUEST["format"] === "base64") echo base64_encode($print);
+else echo $print;
 
 ?>
