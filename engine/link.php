@@ -1,8 +1,10 @@
 <?php
 
-require_once ("config.php");
 require_once ("instagram.class.php");
-global $client_id;
+include $_SERVER['DOCUMENT_ROOT']."/keychain.php";
+
+$keychain = new keychain;
+$clientID = $keychain->getInstagramClientId();
 
 function get_data($url) {
   	$ch = curl_init();
