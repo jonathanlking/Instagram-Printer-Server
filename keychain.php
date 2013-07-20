@@ -20,7 +20,32 @@ class keychain
 	);
 
 	return $credentials;
-    }  
+    } 
+    
+    public function getInstagramClientId() {
+    	
+    	$credentials = $this->getInstagramCredentials();
+    	return $credentials["id"];
+    }
+    
+    public function getInstagramClientSecret() {
+    	
+    	$credentials = $this->getInstagramCredentials();
+    	return $credentials["secret"];
+    }
+    
+    public function getInstagramWebsiteUrl() {
+    	
+    	$credentials = $this->getInstagramCredentials();
+    	return $credentials["url"];
+    }
+    
+    public function getInstagramRedirectUri() {
+    	
+    	$credentials = $this->getInstagramCredentials();
+    	return $credentials["uri"];
+    }
+    
 }  
 
 ?>
