@@ -29,8 +29,16 @@ $(document).ajaxComplete(function(event, request, settings) {
 	$.unblockUI();
 });
 $("#form").submit(function() {
+	$('#content').empty();
 	$.get("/engine/link.php", $(this).serializeArray()).done(function(data) {
-		console.log(data);
+		if (jQuery.isEmptyObject(data)) {
+			var errorMessage = $('<p class="help">Invalid link.</p>');
+			errorMessage.appendTo('#content');
+		} else {
+			var image = $('<img class="print"></img>');
+			image.attr("src", "data:image/jpg;base64," + data);
+			image.appendTo('#content');
+		}
 	});
 	event.preventDefault();
 });

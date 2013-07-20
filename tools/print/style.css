@@ -42,6 +42,15 @@
 	text-shadow:0 1px 2px rgba(255,255,255,0.5)
 }
 
+.print {
+	/* Will not show in mobile safari without width and height tags.	 */
+	width: auto;
+	height: auto;
+	margin: auto;
+	margin-bottom: 20px;
+	border:1px solid #eee;
+}
+
 hr {
 	border:0;
 	border-bottom:1px solid #fff;
