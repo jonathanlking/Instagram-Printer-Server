@@ -12,10 +12,11 @@ $url = "https://api.instagram.com/v1/tags/$tag/media/recent?client_id=$clientID"
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$data = curl_exec($ch);
 
-$response = json_decode($data, true);
-$media = $responce["data"];
+$data = curl_exec($ch);
+$data = json_decode($data, true);
+$media = $data["data"];
+
 
 foreach ($media as $value) {
 
