@@ -20,8 +20,7 @@ function instagramMediaIdFromLink($link) {
 
 function instagramPrintFromMediaData($media) {
 
-	/* $url =  $_SERVER['DOCUMENT_ROOT']."/engine/generate?"; */
-	$url = 'http://print.jonathanlking.com/engine/generate?';
+	$url =  "http://".$_SERVER['SERVER_NAME']."/engine/generate?";
 	$data =  array(
 		'username' => $media->data->user->username,
 		'profilePictureURL' => $media->data->user->profile_picture,
