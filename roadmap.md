@@ -8,7 +8,7 @@ Ideal operation;
 
 1. Clone git repository
 2. Run an install script
-3. Type Instagram API details in
+3. Type Instagram API details in (+ Foursquare - for location tools)
 4. Set a password 
 5. Presented with their printer key
 
