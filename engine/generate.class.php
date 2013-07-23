@@ -45,16 +45,16 @@ class PrintGenerator
 		$this->likes = $likes;
 		$this->logo = $logo;
 
-		$this->clockImagePath = $_SERVER['DOCUMENT_ROOT'].'/engine/images/clock.png';
-		$this->locationPinImagePath = $_SERVER['DOCUMENT_ROOT'].'/engine/images/locationPin.png';
-		$this->speechBubbleImagePath = $_SERVER['DOCUMENT_ROOT'].'/engine/images/speechBubble.png';
-		$this->heartShapeImagePath = $_SERVER['DOCUMENT_ROOT']."/engine/images/heartShape.png";
-		$this->logoImagePath = $_SERVER['DOCUMENT_ROOT'].'logo/'.$logo.'.png';
-		$this->defaultProfilePicturePath = $_SERVER['DOCUMENT_ROOT']."/engine/images/defaultProfilePicture.jpg";
-		$this->defaultPhotoPath = $_SERVER['DOCUMENT_ROOT']."/engine/images/defaultPhoto.jpg";
+		$this->clockImagePath = $_SERVER['DOCUMENT_ROOT'].'/assets/images/clock.png';
+		$this->locationPinImagePath = $_SERVER['DOCUMENT_ROOT'].'/assets/images/locationPin.png';
+		$this->speechBubbleImagePath = $_SERVER['DOCUMENT_ROOT'].'/assets/images/speechBubble.png';
+		$this->heartShapeImagePath = $_SERVER['DOCUMENT_ROOT']."/assets/images/heartShape.png";
+		$this->logoImagePath = $_SERVER['DOCUMENT_ROOT'].'/assets/logo/'.$logo.'.png';
+		$this->defaultProfilePicturePath = $_SERVER['DOCUMENT_ROOT']."/assets/images/defaultProfilePicture.jpg";
+		$this->defaultPhotoPath = $_SERVER['DOCUMENT_ROOT']."/assets/images/defaultPhoto.jpg";
 
-		$this->Font = $_SERVER['DOCUMENT_ROOT']."/engine/fonts/Helvetica.ttf";
-		$this->BoldFont = $_SERVER['DOCUMENT_ROOT']."/engine/fonts/HelveticaBold.ttf";
+		$this->Font = $_SERVER['DOCUMENT_ROOT']."/assets/fonts/Helvetica.ttf";
+		$this->BoldFont = $_SERVER['DOCUMENT_ROOT']."/assets/fonts/HelveticaBold.ttf";
 
 		$this->canvas = imagecreatetruecolor(640, 960);
 
