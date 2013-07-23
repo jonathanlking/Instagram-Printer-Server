@@ -14,10 +14,10 @@ class PrintGenerator
 	private $Font;
 	private $BoldFont;
 
-	private $username = "Username";
-	private $location = "Location";
-	private $caption = "Craft beer brunch Wes Anderson organic ethical trust fund, single-origin coffee banh mi asymmetrical lomo four loko put a bird on it wolf polaroid yr.";
-	private $link = "Broken Link";
+	private $username = "";
+	private $location = "";
+	private $caption = "";
+	private $link = "";
 	private $profilePictureURL;
 	private $photoURL;
 	private $creationTime;
@@ -69,6 +69,8 @@ class PrintGenerator
 	
 		public function getPrintJpeg()
 	{
+		
+		imageantialias($this->canvas, true);
 		
 		$this->draw();
 		// Start a new output buffer
@@ -175,8 +177,7 @@ class PrintGenerator
 		$darkGrey = $this->darkGrey;
 
 		$this->formatInput();
-
-
+		
 		# ! Draw the white background of the image
 		imagefilledrectangle($canvas, 0, 0, 640, 960, $white);
 
