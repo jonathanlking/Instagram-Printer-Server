@@ -1,5 +1,5 @@
-Server-Instagram-Printer
-========================
+Instagram Printer - Server
+==========================
 
 Live demo here: [instagram.jonathanlking.com](http://instagram.jonathanlking.com/) which is automatically updated from this repository.
 
