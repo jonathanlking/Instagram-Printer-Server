@@ -1,9 +1,11 @@
 <?php
 
 require_once "instagram.class.php";
+require_once "generate.class.php";
 include $_SERVER['DOCUMENT_ROOT']."/keychain.php";
 
-function instagramMediaIdFromLink($link) {
+function instagramMediaIdFromLink($link)
+{
 	$curl = curl_init();
 	curl_setopt_array($curl, array(
 			CURLOPT_RETURNTRANSFER => 1,
@@ -18,35 +20,27 @@ function instagramMediaIdFromLink($link) {
 	return $data->media_id;
 }
 
-function instagramPrintFromMediaData($media) {
 
-	$url =  "http://".$_SERVER['SERVER_NAME']."/engine/generate?";
-	$data =  array(
-		'username' => $media->data->user->username,
-		'profilePictureURL' => $media->data->user->profile_picture,
-		'photoURL' => $media->data->images->standard_resolution->url,
-		'creationTime' => $media->data->created_time,
-		'location' => $media->data->location->name,
-		'caption' => $media->data->caption->text,
-		'likes' => $media->data->likes->count,
-		'link' => $media->data->link,
-		'logo' => ""
-	);
+function instagramPrintFromMediaData($media)
+{
 
-	$request = $url.http_build_query($data);
+	$username = $media->data->user->username;
+	$profilePictureURL = $media->data->user->profile_picture;
+	$photoURL = $media->data->images->standard_resolution->url;
+	$creationTime = $media->data->created_time;
+	$location = $media->data->location->name;
+	$caption = $media->data->caption->text;
+	$likes = $media->data->likes->count;
+	$link = $media->data->link;
+	$logo = "";
 
-	$curl = curl_init();
-	curl_setopt_array($curl, array(
-			CURLOPT_RETURNTRANSFER => 1,
-			CURLOPT_URL => $request,
-		));
+	$printGenerator = new PrintGenerator($username, $location, $caption, $link, $profilePictureURL, $photoURL, $creationTime, $likes, $logo);
+	$print = $printGenerator->getPrintJpeg();
 
+	return $print;
 
-	$responce = curl_exec($curl);
-	curl_close($curl);
-
-	return $responce;
 }
+
 
 $keychain = new keychain;
 $clientID = $keychain->getInstagramClientId();
