@@ -15,7 +15,7 @@ $logo = $_GET["logo"];
 
 $printGenerator = new PrintGenerator($username, $location, $caption, $link, $profilePictureURL, $photoURL, $creationTime, $likes, $logo);
 $image = $printGenerator->getPrintJpeg();
-echo($image);
+echo base64_encode(($image));
 
 
 ?>

@@ -6,7 +6,7 @@ require_once $_SERVER['DOCUMENT_ROOT']."/engine/instagram.class.php";
 $keychain = new keychain;
 $clientID = $keychain->getInstagramClientId();
 
-$tag = "sunset";
+$tag = $_GET["tag"];
 
 $url = "https://api.instagram.com/v1/tags/$tag/media/recent?client_id=$clientID";
 $ch = curl_init();
@@ -29,26 +29,21 @@ foreach ($media as $value) {
 	$likes = $value['likes']['count'];
 	$link =  $value['link'];
 
-	echo "<br/>";
-	echo "<strong>Location:</strong> $location";
-	echo "<br/>";
-	echo "<strong>Photo URL:</strong> $photoURL";
-	echo "<br/>";
-	echo "<strong>Username:</strong> $username";
-	echo "<br/>";
-	echo "<strong>Photo Taken:</strong> $creationTime";
-	echo "<br/>";
-	echo '<p><img src="'.$profilePictureURL.'" height="'.$size.'" width="'.$size.'" alt="SOME TEXT HERE"></p>';
-	echo "<br/>";
-	echo "<strong>Caption:</strong> $caption";
-	echo "<br/>";
-	echo "<strong>Likes:</strong> $likes";
-	echo "<br/>";
-	echo "<strong>Link:</strong> $link";
-	echo "<br/>";
-	echo '<p><img src='.$photoURL.' height="'.$size.'" width="'.$size.'" alt="SOME TEXT HERE"></p>';
-	echo "<br/>";
+	$takenOnDate = date("d/m/y", $creationTime);
+	$takenOnTime = date('g:i A', $creationTime);
+	if ($likes>0) $formattedNumberOfLikes = ($likes>1) ? " and has <strong>$likes</strong> likes" : " and has <strong>$likes</strong> like";
+	$formattedLocation = (empty($location)) ? "" : " in <strong>$location</strong>";
+	$summary = "Taken by <strong>$username</strong> on <strong>$takenOnDate</strong> at <strong>$takenOnTime</strong>".$formattedLocation.$formattedNumberOfLikes;
+	
+	echo "<p class='result'>$summary</p>";
+	echo "<p class='result'>$caption</p>";
+	echo "<a href='$link' class='result'><strong>$link</strong></a>";
+/* 	echo '<p class="result"><img src="'.$profilePictureURL.'" height="'.$size.'" width="'.$size.'" alt="'.$username.'"></p>'; */
+	echo '<p><img src='.$photoURL.' height="'.$size.'" width="'.$size.'" alt="'.$caption.'"></p>';
 	echo "<hr>";
 }
 
 ?>
+
+
+			
