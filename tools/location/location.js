@@ -1,5 +1,5 @@
 function venuesForLocation(longitude, latitude, name) {
-	$.getJSON("http://instagram.jonathanlking.com/tools/location/foursquare.php", {
+	$.getJSON("foursquare.php", {
 		lat: latitude,
 		lng: longitude
 	}).done(function(data) {
@@ -37,7 +37,7 @@ function geocodeAddress(address) {
 }
 
 function instagramVenueFromFoursquareVenueId(id) {
-	$.getJSON("http://instagram.jonathanlking.com/tools/location/instagram.php", {
+	$.getJSON("instagram.php", {
 		'id': id
 	}).done(function(data) {
 		var venue = {
