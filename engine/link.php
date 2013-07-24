@@ -1,6 +1,5 @@
 <?php
 
-require_once "instagram.class.php";
 require_once "generate.class.php";
 include $_SERVER['DOCUMENT_ROOT']."/keychain.php";
 
@@ -21,8 +20,20 @@ function instagramMediaIdFromLink($link)
 }
 
 
-function instagramPrintFromMediaData($media)
+function instagramPrintFromMediaId($mediaId, $clientId)
 {
+
+	$curl = curl_init();
+	curl_setopt_array($curl, array(
+			CURLOPT_RETURNTRANSFER => 1,
+			CURLOPT_URL => "https://api.instagram.com/v1/media/$mediaId?client_id=$clientId",
+		));
+
+
+	$responce = curl_exec($curl);
+	curl_close($curl);
+
+	$media = json_decode($responce);
 
 	$username = $media->data->user->username;
 	$profilePictureURL = $media->data->user->profile_picture;
@@ -42,21 +53,27 @@ function instagramPrintFromMediaData($media)
 }
 
 
+function instagramPrintFromLink($link, $clientId)
+{
+
+	// Get the Instagram media id from the link
+	$mediaId = instagramMediaIdFromLink($link);
+	if (empty($mediaId)) die("No Media ID!");
+
+	$print = instagramPrintFromMediaId($mediaId, $clientId);
+	
+	return $print;
+
+}
+
+
 $keychain = new keychain;
-$clientID = $keychain->getInstagramClientId();
+$clientId = $keychain->getInstagramClientId();
 
 $link = $_REQUEST["link"];
-if (empty($link)) die();
+if (empty($link)) die("No Link!");
 
-// Get the Instagram media id from the link
-$mediaId = instagramMediaIdFromLink($link);
-if (empty($mediaId)) die();
-
-// Get the image details from the media_id
-$instagram = new Instagram($clientID);
-$mediaData = $instagram->getMedia($mediaId);
-
-$print = instagramPrintFromMediaData($mediaData);
+$print = instagramPrintFromLink($link, $clientId);
 
 if ($_REQUEST["format"] === "base64") echo base64_encode($print);
 else echo $print;
