@@ -30,7 +30,7 @@ $(document).ajaxComplete(function(event, request, settings) {
 });
 $("#form").submit(function() {
 	$('#content').empty();
-	$.get("/engine/link.php", $(this).serializeArray()).done(function(data) {
+	$.get("/link.php", $(this).serializeArray()).done(function(data) {
 		if (jQuery.isEmptyObject(data)) {
 			var errorMessage = $('<p class="help">Invalid link.</p>');
 			errorMessage.appendTo('#content');

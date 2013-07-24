@@ -1,7 +1,7 @@
 <?php
 
 header('Content-Type: image/jpeg');
-require ($_SERVER['DOCUMENT_ROOT']."/engine/generate.class.php");
+require_once $_SERVER['DOCUMENT_ROOT']."/generate.class.php";
 
 $username = $_GET["username"];
 $profilePictureURL = $_GET["profilePictureURL"];

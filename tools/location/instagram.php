@@ -1,6 +1,6 @@
 <?php
 
-include($_SERVER['DOCUMENT_ROOT']."/keychain.php");
+require_once $_SERVER['DOCUMENT_ROOT']."/keychain.php";
 
 $foursquareID = $_GET["id"];
 

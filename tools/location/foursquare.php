@@ -1,6 +1,6 @@
 <?php
 
-include($_SERVER['DOCUMENT_ROOT']."/keychain.php");
+require_once $_SERVER['DOCUMENT_ROOT']."/keychain.php";
 
 $latitude = $_GET["lat"];
 $longitude = $_GET["lng"];

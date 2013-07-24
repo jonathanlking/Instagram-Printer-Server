@@ -1,7 +1,7 @@
 <?php
 
-require_once "generate.class.php";
-include $_SERVER['DOCUMENT_ROOT']."/keychain.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/generate.class.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/keychain.php";
 
 $keychain = new keychain;
 $clientId = $keychain->getInstagramClientId();
