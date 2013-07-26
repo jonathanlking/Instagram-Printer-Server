@@ -41,7 +41,7 @@ Settings:
 	$table = "CREATE TABLE Settings(
 	key 	TEXT	NOT NULL,
 	value 	TEXT
-	)";
+	);";
 
 	$add  = "INSERT INTO Settings VALUES ('foursquare_token', '');";
 	$add .= "INSERT INTO Settings VALUES ('instagram_id', '');";
@@ -57,11 +57,11 @@ Settings:
 	$edit = "UPDATE Settings SET 'value' = '$value' WHERE key = '$key'";
 
 
-PrintingQueue:
---------------
+PrintQueue:
+----------
 List of Print Objects  
 
-	$table = "CREATE TABLE Print(
+	$table = "CREATE TABLE PrintQueue(
 	PrintId 		INTEGER 	PRIMARY KEY,
 	SubscriptionId 	INTEGER 	NOT NULL,
 	DateTaken		TIMESTAMP	NOT NULL,
@@ -69,7 +69,7 @@ List of Print Objects
 	SmallPrint		TEXT		NOT NULL,
 	InstagramLink	TEXT		NOT NULL,
 	Username		TEXT		NOT NULL	
-	)";
+	);";
 
 Subscription:
 ------------
@@ -85,7 +85,7 @@ List of Subscription Objects
 	Active					BOOLEAN		NOT NULL,
 	Printing				BOOLEAN		NOT NULL,
 	DisplayGallery			BOOLEAN		NOT NULL
-	)";
+	);";
 
 
 Print:
@@ -100,4 +100,4 @@ List of Print Objects
 	SmallPrint		TEXT		NOT NULL,
 	InstagramLink	TEXT		NOT NULL,
 	Username		TEXT		NOT NULL
-	)";
+	);";
