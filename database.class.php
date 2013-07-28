@@ -20,7 +20,12 @@ $manager = new DatabaseManager;
 /* echo $manager->addSubscription("108342834", "tag", "testprint", "#testprint", "", "1", "0", "1"); */
 /* $manager->removeSubscription(2); */
 /* echo var_dump($manager->activeSubscription()); */
-echo var_dump($manager->subscriptionsWithValueForProperty("type", "tag"));
+/* echo var_dump($manager->subscriptionsWithValueForProperty("type", "tag")); */
+
+/* $manager->addPrintToQueue(2); */
+/* echo var_dump($manager->printAtFrontOfQueue()); */
+/* $manager->resetQueue(); */
+
 
 class DatabaseManager
 {
@@ -254,8 +259,9 @@ class DatabaseManager
 
 		return $result;
 	}
-	
-		public function updatePropertyOfSubscription($property, $value, $subscriptionId)
+
+
+	public function updatePropertyOfSubscription($property, $value, $subscriptionId)
 	{
 
 		/* Returns bool success */
@@ -267,8 +273,9 @@ class DatabaseManager
 
 		return $result;
 	}
-	
-		public function subscriptionsWithValueForProperty($property, $value)
+
+
+	public function subscriptionsWithValueForProperty($property, $value)
 	{
 
 		/* Returns array of subscriptions */
@@ -288,13 +295,73 @@ class DatabaseManager
 	{
 
 		/* Returns active subscription */
-		
+
 		$database = new SQLiteDatabase($this->databaseName);
 		$query = $database->query("SELECT * FROM Subscription WHERE Active = '1' ORDER BY SubscriptionId DESC");
 		$subscription = $query->fetch();
 		unset($database);
 
 		return $subscription;
+	}
+
+
+	# Print Queue Functions
+
+	public function addPrintToQueue($printId)
+	{
+
+		/* Returns bool success */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$command = "INSERT INTO PrintQueue SELECT * FROM Print WHERE PrintId = '$printId'";
+		$result = $database->query($command);
+		unset($database);
+
+		return $result;
+	}
+
+
+	public function removePrintFromQueue($printId)
+	{
+
+		/* Returns bool success */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$command = "DELETE FROM PrintQueue WHERE PrintId = '$printId'";
+		$result = $database->query($command);
+		unset($database);
+
+		return $result;
+	}
+
+
+	public function printAtFrontOfQueue()
+	{
+
+		/* Returns the print at the front og the print queue */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$query = $database->query("SELECT * FROM PrintQueue ORDER BY PrintId ASC");
+		$print = $query->fetch();
+		unset($database);
+
+		return $print;
+
+	}
+
+
+	public function resetQueue()
+	{
+
+		/* Returns bool success */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$command = "DELETE FROM PrintQueue";
+		$result = $database->query($command);
+		unset($database);
+
+		return $result;
+
 	}
 
 
