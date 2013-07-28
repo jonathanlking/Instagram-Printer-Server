@@ -11,6 +11,8 @@ $manger = new DatabaseManager;
 /* $manger->updatePropertyOfPrint("SubscriptionId", "782348723948", 2); */
 /* echo var_dump($manger->printsWithValueForProperty("SubscriptionId", "176576454254876")); */
 /* $manger->resetDatabase(); */
+/* echo $manger->settingsValueForKey("printing"); */
+/* $manger->settingsSetValueForKey("printing", "48"); */
 
 
 class DatabaseManager
@@ -34,8 +36,8 @@ class DatabaseManager
 		# SQLite tables
 
 		$settings = "CREATE TABLE Settings(
-					key 	TEXT	NOT NULL,
-					value 	TEXT
+					Key 	TEXT	NOT NULL,
+					Value 	TEXT
 					);";
 
 		$print = "CREATE TABLE Print(
@@ -88,13 +90,17 @@ class DatabaseManager
 		else echo "Database created successfully";
 
 	}
-	
-	public function resetDatabase() {
-		
+
+
+	public function resetDatabase()
+	{
+
 		unlink($this->databaseName);
 		$this->createDatabase();
 	}
 
+
+	# Print Functions
 
 	public function addPrint($dateTaken, $largePrintUrl, $smallPrintUrl, $instagramLink, $subscriptionId, $username)
 	{
@@ -115,7 +121,7 @@ class DatabaseManager
 	{
 
 		$database = new SQLiteDatabase($this->databaseName);
-		$command = "DELETE FROM Print WHERE PrintId = $printId";
+		$command = "DELETE FROM Print WHERE PrintId = '$printId'";
 		$result = $database->query($command);
 		unset($database);
 
@@ -129,7 +135,7 @@ class DatabaseManager
 		/* Returns print object */
 
 		$database = new SQLiteDatabase($this->databaseName);
-		$query = $database->query("SELECT * FROM Print WHERE PrintId = $printId");
+		$query = $database->query("SELECT * FROM Print WHERE PrintId = '$printId'");
 		$print = $query->fetch();
 		unset($database);
 
@@ -143,7 +149,7 @@ class DatabaseManager
 		/* Returns bool success */
 
 		$database = new SQLiteDatabase($this->databaseName);
-		$command = "UPDATE Print SET $property = $value WHERE PrintId = $printId";
+		$command = "UPDATE Print SET $property = $value WHERE PrintId = '$printId'";
 		$result = $database->query($command);
 		unset($database);
 
@@ -159,7 +165,7 @@ class DatabaseManager
 		/* Returns array of prints */
 
 		$database = new SQLiteDatabase($this->databaseName);
-		$query = $database->arrayQuery("SELECT * FROM Print WHERE $property = $value");
+		$query = $database->arrayQuery("SELECT * FROM Print WHERE $property = '$value'");
 		$prints = new ArrayObject;
 		foreach ($query as $row) $prints->append($row);
 		unset($database);
@@ -168,6 +174,39 @@ class DatabaseManager
 
 	}
 
+
+	# Settings Functions
+
+	function settingsSetValueForKey($key, $value)
+	{
+
+		/* Returns bool success */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$command = "UPDATE Settings SET Value = $value WHERE Key = '$key'";
+		$result = $database->query($command, $error);
+		echo $error;
+		unset($database);
+
+		return $result;
+	}
+
+
+	function settingsValueForKey($key)
+	{
+
+		/* Returns value for key */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$query = $database->query("SELECT * FROM Settings WHERE Key = '$key'");
+		$row = $query->fetch();
+		unset($database);
+
+		return $row["Value"];
+	}
+
+
+	# Subscription Functions
 
 	public function latestPrintForSubscription($subscriptionId)
 		{ /* Returns print id */}
