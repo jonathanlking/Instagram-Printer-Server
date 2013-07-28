@@ -31,6 +31,7 @@ License
 **Breakfast NY - http://instaprint.me/ - The original amazing idea, which I wish got fully backed on Kickstarter**
 
 **Adminer**
+    
     Adminer - Compact database management
     @link http://www.adminer.org/
     @author Jakub Vrana, http://www.vrana.cz/
