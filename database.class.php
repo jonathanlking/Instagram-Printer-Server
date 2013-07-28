@@ -7,9 +7,10 @@ $manger = new DatabaseManager;
 /* $manger->removePrint($printId-2); */
 /* echo var_dump($manger->printForPrintId(2)); */
 /* $print = $manger->printForPrintId(2); */
-echo $print["SubscriptionId"];
+/* echo $print["SubscriptionId"]; */
 /* $manger->updatePropertyOfPrint("SubscriptionId", "782348723948", 2); */
-$manger->printsWithValueForProperty("SubscriptionId", "176576454254876");
+/* echo var_dump($manger->printsWithValueForProperty("SubscriptionId", "176576454254876")); */
+/* $manger->resetDatabase(); */
 
 
 class DatabaseManager
@@ -29,9 +30,6 @@ class DatabaseManager
 
 	public function createDatabase()
 	{
-
-		$handle = sqlite_open($this->databaseName, 0666, $error);
-		if (!$handle) die ($error);
 
 		# SQLite tables
 
@@ -81,13 +79,20 @@ class DatabaseManager
 					);";
 
 		$create = $settings.$addKeys.$print.$subscription.$table;
-		$success = sqlite_exec($handle, $create, $error);
 
-		if (!$success) die("<p>Cannot create database. $error.</p>");
-		else echo "<p>Database created successfully</p>";
+		$database = new SQLiteDatabase($this->databaseName);
+		$result = $database->queryExec($create, $error);
+		unset($database);
 
-		sqlite_close($handle);
+		if (!$result) die("Cannot create database as $error.");
+		else echo "Database created successfully";
 
+	}
+	
+	public function resetDatabase() {
+		
+		unlink($this->databaseName);
+		$this->createDatabase();
 	}
 
 
@@ -95,13 +100,12 @@ class DatabaseManager
 	{
 
 		/* Returns print id */
-		$handle = sqlite_open($this->databaseName, 0666, $error);
-		if (!$handle) die ($error);
+
+		$database = new SQLiteDatabase($this->databaseName);
 		$command = "INSERT INTO Print (SubscriptionId, DateTaken, LargePrint, SmallPrint, InstagramLink, Username) VALUES('$subscriptionId', '$dateTaken', '$largePrintUrl', '$smallPrintUrl', '$instagramLink', '$username')";
-		$success = sqlite_exec($handle, $command, $error);
-		if (!$success) die("Cannot add print. $error.");
-		$printId = sqlite_last_insert_rowid($handle);
-		sqlite_close($handle);
+		$result = $database->query($command);
+		$printId = $database->lastInsertRowID();
+		unset($database);
 
 		return $printId;
 	}
@@ -110,15 +114,12 @@ class DatabaseManager
 	public function removePrint($printId)
 	{
 
-		/* Returns bool success */
-		$handle = sqlite_open($this->databaseName, 0666, $error);
-		if (!$handle) die ($error);
+		$database = new SQLiteDatabase($this->databaseName);
 		$command = "DELETE FROM Print WHERE PrintId = $printId";
-		$success = sqlite_exec($handle, $command, $error);
-		sqlite_close($handle);
+		$result = $database->query($command);
+		unset($database);
 
-		return $success;
-
+		return $result;
 	}
 
 
@@ -126,15 +127,13 @@ class DatabaseManager
 	{
 
 		/* Returns print object */
-		$handle = sqlite_open($this->databaseName, 0666, $error);
-		if (!$handle) die ($error);
-		$command = "SELECT * FROM Print WHERE PrintId = $printId";
-		$query = sqlite_query($handle, $command);
-		$results = sqlite_fetch_array($query, SQLITE_ASSOC);
-		sqlite_close($handle);
 
-		return $results;
+		$database = new SQLiteDatabase($this->databaseName);
+		$query = $database->query("SELECT * FROM Print WHERE PrintId = $printId");
+		$print = $query->fetch();
+		unset($database);
 
+		return $print;
 	}
 
 
@@ -143,14 +142,12 @@ class DatabaseManager
 
 		/* Returns bool success */
 
-		$handle = sqlite_open($this->databaseName, 0666, $error);
-		if (!$handle) die ($error);
+		$database = new SQLiteDatabase($this->databaseName);
 		$command = "UPDATE Print SET $property = $value WHERE PrintId = $printId";
-		$success = sqlite_exec($handle, $command, $error);
-		sqlite_close($handle);
+		$result = $database->query($command);
+		unset($database);
 
-		return $success;
-
+		return $result;
 	}
 
 
@@ -163,14 +160,11 @@ class DatabaseManager
 
 		$database = new SQLiteDatabase($this->databaseName);
 		$query = $database->arrayQuery("SELECT * FROM Print WHERE $property = $value");
-		
-		foreach ($query as $row) {
-
-			echo var_dump($row);
-		}
-
+		$prints = new ArrayObject;
+		foreach ($query as $row) $prints->append($row);
 		unset($database);
-		/* 		return $results; */
+
+		return $prints;
 
 	}
 
