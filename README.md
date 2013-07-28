@@ -30,6 +30,15 @@ License
 
 **Breakfast NY - http://instaprint.me/ - The original amazing idea, which I wish got fully backed on Kickstarter**
 
+**Adminer**
+    Adminer - Compact database management
+    @link http://www.adminer.org/
+    @author Jakub Vrana, http://www.vrana.cz/
+    @copyright 2007 Jakub Vrana
+    @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+    @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License, version 2 (one or other)
+    @version 3.7.1
+
 **jQuery blockUI plugin**
 
     jQuery blockUI plugin
