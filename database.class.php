@@ -161,7 +161,7 @@ class DatabaseManager
 		/* Returns bool success */
 
 		$database = new SQLiteDatabase($this->databaseName);
-		$command = "UPDATE Print SET $property = $value WHERE PrintId = '$printId'";
+		$command = "UPDATE Print SET $property = '$value' WHERE PrintId = '$printId'";
 		$result = $database->query($command);
 		unset($database);
 
@@ -207,7 +207,7 @@ class DatabaseManager
 		/* Returns bool success */
 
 		$database = new SQLiteDatabase($this->databaseName);
-		$command = "UPDATE Settings SET Value = $value WHERE Key = '$key'";
+		$command = "UPDATE Settings SET Value = '$value' WHERE Key = '$key'";
 		$result = $database->query($command, $error);
 		echo $error;
 		unset($database);
@@ -267,7 +267,7 @@ class DatabaseManager
 		/* Returns bool success */
 
 		$database = new SQLiteDatabase($this->databaseName);
-		$command = "UPDATE Subscription SET $property = $value WHERE SubscriptionId = '$subscriptionId'";
+		$command = "UPDATE Subscription SET $property = '$value' WHERE SubscriptionId = '$subscriptionId'";
 		$result = $database->query($command);
 		unset($database);
 
