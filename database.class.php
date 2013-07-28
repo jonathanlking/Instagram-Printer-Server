@@ -1,19 +1,26 @@
 <?php
 
-$manger = new DatabaseManager;
-/* $manger->createDatabase();  */
-/* $printId = $manger->addPrint("1093483", "http://www.jonathanlking.com/largePrint.jpg", "http://www.jonathanlking.com/smallPrint.jpg", "instagr.am/p/j3iusadfb3", "176576454254876", "jonathanlking"); */
+$manager = new DatabaseManager;
+/* $manager->createDatabase();  */
+/* $printId = $manager->addPrint("1093483", "http://www.jonathanlking.com/largePrint.jpg", "http://www.jonathanlking.com/smallPrint.jpg", "instagr.am/p/j3iusadfb3", "176576454254876", "jonathanlking"); */
 /* echo $printId; */
-/* $manger->removePrint($printId-2); */
-/* echo var_dump($manger->printForPrintId(2)); */
-/* $print = $manger->printForPrintId(2); */
+/* $manager->removePrint($printId-2); */
+/* echo var_dump($manager->printForPrintId(2)); */
+/* $print = $manager->printForPrintId(2); */
 /* echo $print["SubscriptionId"]; */
-/* $manger->updatePropertyOfPrint("SubscriptionId", "782348723948", 2); */
-/* echo var_dump($manger->printsWithValueForProperty("SubscriptionId", "176576454254876")); */
-/* $manger->resetDatabase(); */
-/* echo $manger->settingsValueForKey("printing"); */
-/* $manger->settingsSetValueForKey("printing", "48"); */
+/* $manager->updatePropertyOfPrint("SubscriptionId", "782348723948", 2); */
+/* echo var_dump($manager->printsWithValueForProperty("SubscriptionId", "176576454254876")); */
+/* $manager->resetDatabase(); */
+/* echo $manager->settingsValueForKey("printing"); */
+/* $manager->settingsSetValueForKey("printing", "48"); */
+// Make sure you pass in a string - not an int
+/* echo $manager->latestPrintForSubscription("176576454254876"); */
+/* echo var_dump($manager->printsWithValueForProperty("SubscriptionId", "176576454254876")); */
 
+/* echo $manager->addSubscription("108342834", "tag", "testprint", "#testprint", "", "1", "0", "1"); */
+/* $manager->removeSubscription(2); */
+/* echo var_dump($manager->activeSubscription()); */
+echo var_dump($manager->subscriptionsWithValueForProperty("type", "tag"));
 
 class DatabaseManager
 {
@@ -157,8 +164,6 @@ class DatabaseManager
 	}
 
 
-
-
 	public function printsWithValueForProperty($property, $value)
 	{
 
@@ -172,6 +177,20 @@ class DatabaseManager
 
 		return $prints;
 
+	}
+
+
+	public function latestPrintForSubscription($subscriptionId)
+	{
+
+		/* Returns print id */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$query = $database->query("SELECT * FROM Print WHERE SubscriptionId = '$subscriptionId' ORDER BY PrintId DESC");
+		$print = $query->fetch();
+		unset($database);
+
+		return $print;
 	}
 
 
@@ -208,12 +227,75 @@ class DatabaseManager
 
 	# Subscription Functions
 
-	public function latestPrintForSubscription($subscriptionId)
-		{ /* Returns print id */}
+	public function addSubscription($instagramSubscription, $type, $value, $galleryTitle, $logoFilename, $active, $printing, $displayGallery)
+	{
+
+		/* Returns subscription id */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$command = "INSERT INTO Subscription (InstagramSubscription, Type, Value, GalleryTitle, LogoFilename, Active, Printing, DisplayGallery) VALUES('$instagramSubscription', '$type', '$value', '$galleryTitle', '$logoFilename', '$active', '$printing', '$displayGallery')";
+		$result = $database->query($command);
+		$subscriptionId = $database->lastInsertRowID();
+		unset($database);
+
+		return $subscriptionId;
+	}
 
 
-	public function addSubscription($dateTaken, $largePrintUrl, $smallPrintUrl, $instagramLink, $subscriptionId)
-		{ /* Returns print id */}
+	public function removeSubscription($subscriptionId)
+	{
+
+		/* Returns bool success */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$command = "DELETE FROM Subscription WHERE SubscriptionId = '$subscriptionId'";
+		$result = $database->query($command);
+		unset($database);
+
+		return $result;
+	}
+	
+		public function updatePropertyOfSubscription($property, $value, $subscriptionId)
+	{
+
+		/* Returns bool success */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$command = "UPDATE Subscription SET $property = $value WHERE SubscriptionId = '$subscriptionId'";
+		$result = $database->query($command);
+		unset($database);
+
+		return $result;
+	}
+	
+		public function subscriptionsWithValueForProperty($property, $value)
+	{
+
+		/* Returns array of subscriptions */
+
+		$database = new SQLiteDatabase($this->databaseName);
+		$query = $database->arrayQuery("SELECT * FROM Subscription WHERE $property = '$value'");
+		$subscriptions = new ArrayObject;
+		foreach ($query as $row) $subscriptions->append($row);
+		unset($database);
+
+		return $subscriptions;
+
+	}
+
+
+	public function activeSubscription()
+	{
+
+		/* Returns active subscription */
+		
+		$database = new SQLiteDatabase($this->databaseName);
+		$query = $database->query("SELECT * FROM Subscription WHERE Active = '1' ORDER BY SubscriptionId DESC");
+		$subscription = $query->fetch();
+		unset($database);
+
+		return $subscription;
+	}
 
 
 }
