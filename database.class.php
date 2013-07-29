@@ -1,39 +1,15 @@
 <?php
 
 $manager = new DatabaseManager;
-/* $manager->createDatabase();  */
-/* $printId = $manager->addPrint("1093483", "http://www.jonathanlking.com/largePrint.jpg", "http://www.jonathanlking.com/smallPrint.jpg", "instagr.am/p/j3iusadfb3", "176576454254876", "jonathanlking"); */
-/* echo $printId; */
-/* $manager->removePrint($printId-2); */
-/* echo var_dump($manager->printForPrintId(2)); */
-/* $print = $manager->printForPrintId(2); */
-/* echo $print["SubscriptionId"]; */
-/* $manager->updatePropertyOfPrint("SubscriptionId", "782348723948", 2); */
-/* echo var_dump($manager->printsWithValueForProperty("SubscriptionId", "176576454254876")); */
-/* $manager->resetDatabase(); */
-/* echo $manager->settingsValueForKey("printing"); */
-/* $manager->settingsSetValueForKey("printing", "48"); */
-// Make sure you pass in a string - not an int
-/* echo $manager->latestPrintForSubscription("176576454254876"); */
-/* echo var_dump($manager->printsWithValueForProperty("SubscriptionId", "176576454254876")); */
-
-/* echo $manager->addSubscription("108342834", "tag", "testprint", "#testprint", "", "1", "0", "1"); */
-/* $manager->removeSubscription(2); */
-/* echo var_dump($manager->activeSubscription()); */
-/* echo var_dump($manager->subscriptionsWithValueForProperty("type", "tag")); */
-
-/* $manager->addPrintToQueue(2); */
-/* echo var_dump($manager->printAtFrontOfQueue()); */
-/* $manager->resetQueue(); */
-
 
 class DatabaseManager
 {
 
-	private $databaseName = "database.db";
+	private $databaseName;
 
 	function __construct()
 	{
+		$this->databaseName = dirname(__FILE__)."/database.db";
 	}
 
 
